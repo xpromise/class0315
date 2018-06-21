@@ -32,14 +32,26 @@
     process.nextTick() 此函数能在任意阶段执行
  */
 
-setImmediate(function () {
-  console.log('setImmediate()函数执行了');
-})
+const fs = require('fs');
+
+
 
 process.nextTick(function () {
   console.log('process.nextTick()函数执行了');
 })
 
 setTimeout(function () {
-  console.log('setTimeout()函数执行了');
-}, 10)
+  console.log('外面的定时器');
+}, 0)
+
+fs.readFile('package.json', err => {
+  if (!err) {
+    setTimeout(function () {
+      console.log('setTimeout()函数执行了');
+    }, 0)
+    setImmediate(function () {
+      console.log('setImmediate()函数执行了');
+    })
+    console.log('readFile()方法执行成功了');
+  }
+})
