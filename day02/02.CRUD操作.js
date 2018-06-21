@@ -21,6 +21,8 @@ db.students.insertOne({name: 'Jerry', age: 20})
 /*
 	- read 查找文档
 	db.collections.find(查询条件, 投影)
+	db.collections.findOne(查询条件, 投影)  当前数据库中指定集合内根据查询条件查找出第一个符合条件的文档
+	db.collections.findMany(查询条件, 投影)
 	操作符：
 		1. > >= < <= != $gt $gte $lt $lte $ne
 		2. $or $in $nin
@@ -40,11 +42,34 @@ db.students.find({name: /^T/})
 
 db.students.find({
   $where: function () {
-  	return this.age >= 18 && this.name === 'Tom'
+    return this.age >= 18 && this.name === 'Tom'
   }
 })
 
 
 db.students.find({}, {_id: 0, age: 0})
 
+/*
+	- update 更新文档
+	db.collections.update(查询条件, 更新内容[, 配置对象]) 默认只能更新匹配到的一个文档对象
+	db.collections.updateOne(查询条件, 更新内容[, 配置对象]) 默认只能更新匹配到的一个文档对象
+	db.collections.updateMany(查询条件, 更新内容[, 配置对象]) 默认只能更新匹配到的一个文档对象
+	
+	$set: 只会更新指定的字段
+	$inc: 增加指定字段的大小 ，针对于number
+	
+*/
+
+db.students.find()
+
+db.students.update({name: 'Tom'}, {$set: {age: 20}}) //只能匹配一个
+
+db.students.update({}, {$inc: {age: 1}}, {multi: true}) //能够匹配多个
+
+/*
+	- delete 删除文档
+	db.collections.remove(查询条件)
+*/
+
+db.students.remove({age: {$lt: 18}})
 
