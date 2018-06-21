@@ -70,6 +70,8 @@ promise
     s1.save(err => {
       if (!err) {
         console.log('文档对象插入成功了~~~~');
+      } else {
+        console.log(err);
       }
     })
     
