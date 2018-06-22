@@ -48,13 +48,14 @@ promise
       }
     })
     //this指向的坑~！！
-    studentSchema.pre('save', function () {
+    studentSchema.pre('save', function (next) {
       //this指向的是被操作的文档对象
       if (!this.isNew) {
         //更新过
         //更新文档对象的最近一次的更新时间
         this.meta.updateTime = Date.now();
       }
+      next();
     })
     
     //创建集合对象
