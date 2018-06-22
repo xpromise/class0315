@@ -55,11 +55,13 @@ app.get('/', (req, res) => {
   
   res.redirect('https://www.baidu.com');
 })
+
 app.get('/test', (request, response) => {
   console.log(request.query);
   
   response.send('<h1>这是服务器返回的响应</h1>');
 })
+
 app.post('/', (request, response) => {
 
 })
