@@ -4,18 +4,23 @@ const express = require('express');
 const db = require('./database/db');
 //引入模型对象模块
 const Users = require('./model/Users');
+//引入body-parser模块，用来解析请求体的
+const bodyParser = require('body-parser');
+//引入sha1加密模块
+const sha1 = require('sha1');
 //创建应用对象
 const app = express();
-
-
-
+//内置中间件  向外暴露出去public静态资源目录
+app.use(express.static('public'));
+//第三方中间件
+app.use(bodyParser.urlencoded({extended: true}));
 
 db
   .then(() => {
-    
+    //应用级中间件
     function middleWare(req, res, next) {
       //获取请求参数
-      const {username, password, email} = req.query;
+      const {username, password, email} = req.body;
       // 2. 正则的验证，验证用户填写的信息是否符合规范
       const usernameReg = /^[a-zA-Z0-9_]{5,12}$/;  //用户名可以是大小字母、数字、下划线，长度为5-12
       const passwordReg = /^[a-zA-Z0-9]{6,18}$/; //密码可以是大小字母、数字，长度为6-18
@@ -46,7 +51,7 @@ db
       next();
     }
     //登录路由
-    app.get('/login', middleWare, (req, res) => {
+    app.post('/login', middleWare, (req, res) => {
       /*
         1. 获取用户填写数据/请求参数
         2. 正则验证
@@ -57,10 +62,10 @@ db
             用户名或密码错误
        */
       // 1. 获取用户填写数据/请求参数
-      const {username, password} = req.query;
+      const {username, password} = req.body;
       // 3. 去数据库中查是否有指定的用户
       Users.findOne({username}, (err, data) => {
-        if (!err && data && data.password === password) {
+        if (!err && data && data.password === sha1(password)) {
           //说明方法没有错误并且找到了指定用户
           res.send('登录成功');
         } else {
@@ -79,7 +84,7 @@ db
       })*/
     })
     //注册路由
-    app.get('/register', middleWare, (req, res) => {
+    app.post('/register', middleWare, (req, res) => {
       /*
         1. 获取用户填写信息（获取请求参数）
         2. 正则的验证，验证用户填写的信息是否符合规范
@@ -88,7 +93,7 @@ db
         5. 将用户信息保存在数据库中
        */
       // 1. 获取用户填写信息（获取请求参数）
-      const {username, password, rePassword, email} = req.query;
+      const {username, password, rePassword, email} = req.body;
       
       // 3. 验证密码和确认密码是否一致
       if (password !== rePassword) {
@@ -104,12 +109,13 @@ db
             //找到了指定用户
             res.send('不好意思，用户名已被注册');
           } else {
-            console.log(data); //null
+            // console.log(data); //null
             //用户名没有被注册过，可以注册
             // 5. 将用户信息保存在数据库中
+            console.log(sha1(password)); // 601f1889667efaebb33b8c12572835da3f027f78
             Users.create({
               username,
-              password,
+              password: sha1(password),
               email
             }, err => {
               if (!err) res.send('恭喜您，注册成功了~~');
