@@ -73,6 +73,8 @@ router.post('/login', middleWare, (req, res) => {
   Users.findOne({username}, (err, data) => {
     if (!err && data && data.password === sha1(password)) {
       //说明方法没有错误并且找到了指定用户
+      //设置cookie
+      res.cookie('_id', data.id, {maxAge: 1000 * 3600 * 24 * 7});
       res.redirect('/userCenter');
     } else {
       //说明方法出错了或者没有找到指定用户
