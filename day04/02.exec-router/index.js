@@ -20,7 +20,6 @@ db
     console.log(err);
   })
 
-
 //监听端口号
 app.listen(3000, err => {
   if (!err) console.log('服务器启动成功了~~·');
