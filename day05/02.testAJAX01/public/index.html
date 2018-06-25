@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>testAJAX01</title>
+</head>
+<body>
+  <input type="text" placeholder="请输入验证码">
+  <button id="btn">发送验证码</button>
+  <script type="text/javascript">
+    window.onload = function () {
+      /*
+        1. 避免发送多次ajax请求
+          - 函数节流的方式
+        2. 按钮样式
+
+       */
+      //获取btn按钮
+      var btn = document.getElementById('btn');
+      //上一次点击按钮的时间
+      var lastTime = 0;
+      //标志位
+      var isSend = false; //表示是否发送过ajax请求
+      var hasXHR = null; //表示之前有xhr对象
+      //定义节流的时间
+      var TIME = 5;
+      //绑定事件监听
+      btn.onclick = function () {
+        //改变按钮按钮
+        //节流函数
+        //当前点击按钮的时间
+        var nowTime = Date.now();
+        //判断是否到点了
+        if (nowTime - lastTime >= TIME * 1000) {
+          //到点了，可以再次发送ajax请求，将标志位改为false
+          isSend = false;
+        }
+        //判断标志位
+        if (isSend) {
+          //如果isSend为true，说明之前发送过ajax请求，不再发送ajax
+          return
+        }
+        //表示之前没有发送过ajax，将标志位改为true
+        isSend = true;
+        //同步上一次发送ajax请求的时间
+        lastTime = nowTime;
+        //改变按钮的样式
+        this.style.color = 'gray';
+        this.innerText = '已发送(' + TIME + 's)';
+        //不能改变TIME常量，重新声明变量接受
+        var time = TIME;
+        //使用定时器实现倒计时
+        var timer = setInterval(function () {
+          time--;
+          btn.innerText = '已发送(' + time + 's)';
+          if (time <= 0) {
+            //到点了，清除定时器，改变按钮的样式
+            clearInterval(timer);
+            btn.innerText = '发送验证码';
+            btn.style.color = 'black';
+          }
+        }, 1000)
+
+        if (hasXHR) {
+          //取消上一次发送的ajax请求
+          hasXHR.abort();
+          //再次发送ajax请求，保存xhr对象
+          hasXHR = sendAJAX();
+        } else {
+          //说明之前没有xhr对象，保存xhr对象
+          hasXHR = sendAJAX();
+        }
+
+      }
+
+      function sendAJAX() {
+        //发送ajax请求
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log(xhr.responseText);
+            //请求成功，用户拿到数据了，将hasXHR置为空对象
+            hasXHR = null;
+          }
+        }
+        xhr.open('GET', '/testAJAX');
+        xhr.send();
+        //返回值
+        return xhr;
+      }
+
+    }
+  </script>
+</body>
+</html>
