@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>jQuery</title>
+</head>
+<body>
+  <button id="btn">点击发送ajax请求</button>
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      /*
+        cors  简单方便
+        支持所有的请求方式
+       */
+      $('#btn').click(function () {
+        $.get('http://localhost:3000/cors', function (data) {
+          console.log(data);
+        })
+      })
+
+    })
+  </script>
+</body>
+</html>
