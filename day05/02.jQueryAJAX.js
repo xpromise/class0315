@@ -10,8 +10,7 @@ app.get('/ajax', (req, res) => {
   const data = {
     username: '孙悟空'
   };
-  //将其拼接成函数调用的方式，最终将拼接成的东西转化为json字符串
-  // const data = JSON.stringify(data);
+  //将数据转化为json字符串，最终再拼接成函数调用的方式
   res.send(callback + '(' +  JSON.stringify(data) + ')');  //fun({"username": "孙悟空"})
   // res.send("window.data = '服务器返回的响应'");
 })
