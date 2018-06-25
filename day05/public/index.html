@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ajax</title>
+</head>
+<body>
+  <button id="btn">点击发送ajax请求</button>
+  <script type="text/javascript">
+    //获取按钮
+    var btn = document.getElementById('btn');
+    //绑定事件监听
+    btn.onclick = function () {
+      //发送ajax请求
+      /*
+        1. 创建xhr对象
+        2. 绑定事件监听onreadystatechange
+        3. 设置请求信息
+        4. 发送请求
+       */
+      // 1. 创建xhr对象
+      var xhr = new XMLHttpRequest();
+      // 2. 绑定事件监听onreadystatechange
+      /*
+        readyState：
+          0：创建了xhr对象，open方法还未调用
+          1：调用open(), 还没调用send()   设置请求头信息
+          2：send()方法调用了，并返回了响应  获取响应头和状态码
+          3：接受了部分数据（响应体）
+          4：接受完全部数据
+      */
+      xhr.onreadystatechange = function () {
+        //判断readyState（ajax的状态码） status（响应状态码）
+        if (xhr.readyState === 2) {
+          console.log(xhr.status);
+          console.log(xhr.getResponseHeader('Content-Type'));
+        }
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          //请求成功了
+          console.log(xhr.responseText); //响应的数据
+        }
+      }
+      // 3. 设置请求信息
+      /*
+         xhr.open(请求方式, 请求服务器地址);
+            GET请求参数位于请求地址的查询字符串
+            POST请求参数位于xhr.send(body)
+
+         IE浏览器默认会缓存你的请求资源，当你下一次再次发送同样的请求的话，浏览器直接拦截下来了，返回给你之前的数据
+         问题：可能拿不到服务器响应的最新的数据
+         解决：保证请求地址每次请求是不一样
+       */
+      xhr.open('GET', '/ajax?username=sunwukong&password=123123&date=' + Date.now());
+      //设置请求头的信息
+      xhr.setRequestHeader('Content-Type', 'text/html');
+      // 4. 发送请求
+      xhr.send();
+    }
+  </script>
+</body>
+</html>
