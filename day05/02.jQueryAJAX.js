@@ -18,6 +18,7 @@ app.get('/ajax', (req, res) => {
 app.get('/cors', (req, res) => {
   //允许所有网址都可以跨域
   // res.setHeader('Access-Control-Allow-Origin', '*');
+  
   //允许指定的网址进行跨域
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:63342');
   res.send('cors返回的响应');
