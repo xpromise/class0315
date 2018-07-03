@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>jsonp</title>
+</head>
+<body>
+  <!--<script type="text/javascript" src="http://localhost:3000/ajax"></script>-->
+  <script type="text/javascript">
+    /*
+      jsonp只能发送get请求
+     */
+    //创建一个script标签
+    var script = document.createElement('script');
+    //新建一个函数
+    window.fun = function (data) {
+      console.log(data);
+    }
+    //设置script标签的src属性
+    script.src = 'http://localhost:3000/ajax?callback=fun';
+    //将script标签插入body中,使script标签生效
+    document.body.appendChild(script);
+  </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ejs</title>
+</head>
+<body>
+  <!--
+    ejs能在写html代码的地方，写js
+    < %   % >  写js代码，无输出
+    < %-  % >  输出非转义的后数据
+    < %=  % >  输出转义后的数据
+  -->
+  <%  var a = 10; console.log(a + 11);  %>
+
+  <h1><%- username %></h1>
+  <h1><%= username %></h1>
+
+  <ul>
+    <% for (let i = 0; i < data.length; i++) { %>
+      <li><%= data[i] %></li>
+    <% } %>
+  </ul>
+
+</body>
+</html>

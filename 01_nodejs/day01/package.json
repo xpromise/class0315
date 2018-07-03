@@ -1,0 +1,19 @@
+{
+  "name": "test01",
+  "version": "1.0.0",
+  "description": "this is a test project",
+  "main": "06_npm.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "test"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jquery": "^3.3.1",
+    "math": "0.0.3",
+    "react": "^16.4.1"
+  }
+}
