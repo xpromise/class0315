@@ -4,6 +4,7 @@
  */
 
 define(['dataServer'], function (dataServer) {
+  console.log('alerter模块被加载了');
   var msg = dataServer();
   
   function alerter() {
