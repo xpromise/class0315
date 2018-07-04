@@ -58,7 +58,7 @@ module.exports = function (grunt) {
         options: {
           paths: ['build/css'],
           plugins: [
-            new (require('less-plugin-autoprefix'))({browsers: ["last 2 versions"]})
+            new (require('less-plugin-autoprefix'))({browsers: ["last 2 versions", "> 5%", "Firefox > 20", "ie 6-8"]})
           ]
         },
         files: {
@@ -76,7 +76,41 @@ module.exports = function (grunt) {
           'dist/css/dist.min.css': ['build/css/built.css']
         }
       }
-    }
+    },
+    htmlmin: {
+      dist: {
+        options: {
+          removeComments: true,       //移除注释
+          collapseWhitespace: true    //移除多余的空格
+        },
+        files: {
+          'dist/index.html': 'src/index.html'
+        }
+      }
+    },
+    watch: {
+      scripts: {    //监视js文件
+        files: ['src/js/*.js'],  //监视的文件
+        tasks: ['jshint', 'babel', 'concat', 'uglify'],       //一旦监视的文件发生改变，就会自动执行任务列表中的任务
+        options: {
+          spawn: false  //加快任务速度
+        },
+      },
+      css: {
+        files: 'src/less/*.less',
+        tasks: ['less', 'cssmin'],
+        options: {
+          spawn: false  //加快任务速度
+        },
+      },
+      html: {
+        files: 'src/index.html',
+        tasks: ['htmlmin'],
+        options: {
+          spawn: false  //加快任务速度
+        },
+      },
+    },
   });
   // 2. 加载插件任务
   grunt.loadNpmTasks('grunt-babel');
@@ -85,6 +119,10 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-contrib-htmlmin');
+  grunt.loadNpmTasks('grunt-contrib-watch');
   // 3. 注册构建任务
-  grunt.registerTask('default', ['jshint', 'babel', 'concat', 'uglify', 'less', 'cssmin']);  //执行顺序从左到右，同步的
+  grunt.registerTask('default', ['jshint', 'babel', 'concat', 'uglify', 'less', 'cssmin', 'htmlmin']);  //执行顺序从左到右，同步的
+  grunt.registerTask('myWatch', ['default', 'watch']);
+  
 };
