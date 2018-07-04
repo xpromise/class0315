@@ -5,6 +5,11 @@ const babel = require('gulp-babel');
 const concat = require('gulp-concat');
 const uglify = require('gulp-uglify');
 const rename = require("gulp-rename");
+const less = require('gulp-less');
+const LessAutoprefix = require('less-plugin-autoprefix');
+const autoprefix = new LessAutoprefix({ browsers: ['last 2 versions'] });
+const cssmin = require('gulp-cssmin');
+const htmlmin = require('gulp-htmlmin');
 /*
   任务如果指定了 return  那么这个任务就是个异步的任务
       如果没有指定 return  那么这个任务就是个同步的任务
@@ -50,7 +55,29 @@ gulp.task('minifyjs', function () {
     .pipe(gulp.dest('./build/js'))
     .pipe(uglify())     //压缩js代码
     .pipe(rename('dist.min.js'))   //重命名js文件
-    .pipe(gulp.dest('./dist/js/'))
+    .pipe(gulp.dest('dist/js'))
 })
 
-gulp.task('default', ['minifyjs'])//异步执行
+gulp.task('minifycss', function () {
+  return gulp.src('src/less/*.less')
+    .pipe(less({          //将less文件编译成css文件
+      plugins: [autoprefix]  //增加前缀
+    }))
+    .pipe(gulp.dest('build/css'))
+    .pipe(concat('built.css'))   //合并css文件
+    .pipe(gulp.dest('build/css'))
+    .pipe(cssmin())   //压缩css
+    .pipe(rename('dist.min.css'))
+    .pipe(gulp.dest('./dist/css'))
+})
+
+gulp.task('minifyhtml', function () {
+  return gulp.src('src/index.html')
+    .pipe(htmlmin({
+      removeComments: true,
+      collapseWhitespace: true
+    }))
+    .pipe(gulp.dest('dist'))
+})
+
+gulp.task('default', ['minifyjs', 'minifycss', 'minifyhtml'])//异步执行
