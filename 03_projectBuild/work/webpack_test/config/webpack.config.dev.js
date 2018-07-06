@@ -8,8 +8,7 @@ const {resolve} = require('path');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 //创建一个html文件
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-//清除指定目录
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const webpack = require('webpack');
 module.exports = {
   //入口
   entry: './src/js/app.js',
@@ -21,16 +20,6 @@ module.exports = {
   //配置loader
   module: {
     rules: [
-    /*  {     //配置规则
-      test: /\.less$/,   //规则处理的文件
-      use: [{            //遇到要处理的文件，通过use中的loader处理指定文件（执行顺序从右往左）
-        loader: "style-loader" // 会在html文件中，将js中css样式生成一个style标签插入页面中去
-      }, {
-        loader: "css-loader" // 将css变成js中一个模块（commonjs的模块化语法）
-      }, {
-        loader: "less-loader" // 将less编译成css
-      }]
-    },*/
       {
         test: /\.less$/,
         use: ExtractTextPlugin.extract({
@@ -39,18 +28,6 @@ module.exports = {
           use: ['css-loader', 'less-loader']
         })
       },
-      /*{
-        test: /\.(png|jpg|gif)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              publicPath: './build/images',  //样式中图片的路径
-              outputPath: './images'   //输出的文件路径
-            }
-          }
-        ]
-      }*/
       {
         test: /\.(png|jpg|gif)$/,
         use: [
@@ -73,9 +50,15 @@ module.exports = {
       filename: 'index.html',     //文件名
       template: 'src/index.html'  //以指定html文件为模板去创建html文件
     }),
-    new CleanWebpackPlugin('../build', {  //不遵循output输出目录
-      allowExternal: true   //允许清除根目录以外的文件夹
-    })
+    new webpack.NamedModulesPlugin(),
+    new webpack.HotModuleReplacementPlugin()
   ],
-  devtool: 'inline-source-map'
+  //服务器实现热更新
+  devServer: {
+    contentBase: __dirname,
+    compress: true,   //以gzip格式压缩
+    port: 3000,       //端口号
+    open: true,       //自动打开网页
+    hot: true         //开启热模替换功能
+  }
 }

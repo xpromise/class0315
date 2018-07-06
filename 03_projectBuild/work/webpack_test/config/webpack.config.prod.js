@@ -15,42 +15,25 @@ module.exports = {
   entry: './src/js/app.js',
   //输出
   output: {
-    path: resolve(__dirname, '../build'),   //输出目录
-    filename: './js/built.js'            //输出文件名
+    path: resolve(__dirname, '../dist'),   //输出目录
+    filename: './js/dist.min.js'            //输出文件名
   },
   //配置loader
   module: {
     rules: [
-    /*  {     //配置规则
-      test: /\.less$/,   //规则处理的文件
-      use: [{            //遇到要处理的文件，通过use中的loader处理指定文件（执行顺序从右往左）
-        loader: "style-loader" // 会在html文件中，将js中css样式生成一个style标签插入页面中去
-      }, {
-        loader: "css-loader" // 将css变成js中一个模块（commonjs的模块化语法）
-      }, {
-        loader: "less-loader" // 将less编译成css
-      }]
-    },*/
       {
         test: /\.less$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           //如果需要，可以在 less-loader 之前将 resolve-url-loader 链接进来
-          use: ['css-loader', 'less-loader']
+          use: [{
+            loader: 'css-loader',
+            options: {
+              minimize: true //启用压缩css
+            }
+          }, 'postcss-loader', 'less-loader']
         })
       },
-      /*{
-        test: /\.(png|jpg|gif)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              publicPath: './build/images',  //样式中图片的路径
-              outputPath: './images'   //输出的文件路径
-            }
-          }
-        ]
-      }*/
       {
         test: /\.(png|jpg|gif)$/,
         use: [
@@ -68,14 +51,13 @@ module.exports = {
   },
   //配置插件
   plugins: [
-    new ExtractTextPlugin("./css/built.css"),
+    new ExtractTextPlugin("./css/dist.min.css"),
     new HtmlWebpackPlugin({
       filename: 'index.html',     //文件名
       template: 'src/index.html'  //以指定html文件为模板去创建html文件
     }),
-    new CleanWebpackPlugin('../build', {  //不遵循output输出目录
+    new CleanWebpackPlugin('../dist', {  //不遵循output输出目录
       allowExternal: true   //允许清除根目录以外的文件夹
     })
-  ],
-  devtool: 'inline-source-map'
+  ]
 }
