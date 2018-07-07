@@ -76,6 +76,5 @@ module.exports = {
     new CleanWebpackPlugin('../build', {  //不遵循output输出目录
       allowExternal: true   //允许清除根目录以外的文件夹
     })
-  ],
-  devtool: 'inline-source-map'
+  ]
 }

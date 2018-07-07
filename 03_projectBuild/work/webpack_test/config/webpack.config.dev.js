@@ -4,12 +4,8 @@
   通过 webpack --display-modules 能查看所有任务执行情况
  */
 const {resolve} = require('path');
-//提取css成单独的文件
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
 //创建一个html文件
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-//清除指定目录
-const CleanWebpackPlugin = require('clean-webpack-plugin');
 const webpack = require('webpack');
 module.exports = {
   //入口

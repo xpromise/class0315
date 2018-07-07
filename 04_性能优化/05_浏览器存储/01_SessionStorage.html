@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			#test{
+				margin-left: 500px;
+			}
+		</style>
+	</head>
+	<body>
+		<input id="test" type="text" placeholder="来吧,写点啥"/>
+		<input id="btn1" type="button" value="删除" />
+		<input id="btn2" type="button" value="打扫存储空间" />
+	</body>
+	<script type="text/javascript">
+		var testNode = document.getElementById("test");
+		var btn1 = document.getElementById("btn1");
+		var btn2 = document.getElementById("btn2");
+		
+		if(sessionStorage.getItem("test")){
+			testNode.value=sessionStorage.getItem("test");
+		}
+		
+		testNode.addEventListener("input",function(){
+			sessionStorage.setItem("test",this.value);
+		})
+		
+		btn1.onclick=function(){
+			sessionStorage.removeItem("test");
+		}
+		btn2.onclick=function(){
+			sessionStorage.clear();
+		}
+		
+		
+		
+		
+	</script>
+</html>

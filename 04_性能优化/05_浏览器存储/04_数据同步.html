@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<input type="checkbox" value="范冰冰">范冰冰</input><br />
+		<input type="checkbox" value="刘亦菲">刘亦菲</input><br />
+		<input type="checkbox" value="周冬雨">周冬雨</input><br />
+		<input type="checkbox" value="张晓飞">张晓飞</input><br />
+		<input type="button" id="clear" value="清空" />
+	</body>
+	<script type="text/javascript">
+		window.onload=function(){
+			var allNodes = document.querySelectorAll("input[type='checkbox']");
+			var clearNode = document.getElementById("clear");
+			for(var i=0;i<allNodes.length;i++){
+				allNodes[i].addEventListener("click",function(){
+					if(this.checked){
+						localStorage.setItem("checked",this.value);
+					}else{
+						localStorage.setItem("nochecked",this.value);
+					}
+				})
+			}
+			
+			clearNode.addEventListener("click",function(){
+				localStorage.clear();
+			})
+			
+			window.addEventListener("storage",function(ev){
+				var ev=ev||event;
+				
+				if(ev.key==="checked"){
+					for(var i=0;i<allNodes.length;i++){
+						if(allNodes[i].value === ev.newValue){
+							allNodes[i].checked=true;
+						}
+					}
+				}else if(ev.key==="nochecked"){
+					for(var i=0;i<allNodes.length;i++){
+						if(allNodes[i].value === ev.newValue){
+							allNodes[i].checked=false;
+						}
+					}
+				}
+			})
+		}
+	</script>
+</html>
