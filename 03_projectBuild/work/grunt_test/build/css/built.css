@@ -1,0 +1,23 @@
+#box1 {
+  width: 100px;
+  height: 100px;
+  background: pink;
+  transform: rotate3d(100deg);
+}
+#box1 p {
+  color: #fff;
+  font-size: 20px;
+  box-shadow: 1px 2px 3px 4px firebrick;
+}
+
+#box2 {
+  width: 150px;
+  height: 150px;
+  background: hotpink;
+}
+#box2 p {
+  color: deepskyblue;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+}
