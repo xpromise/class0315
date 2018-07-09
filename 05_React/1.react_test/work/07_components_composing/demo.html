@@ -29,19 +29,95 @@
       2. 输入文本, 点击按钮显示到下面列表的首位, 并清除输入的文本
      */
     /*
-    分解组件:
-      列表: TodoList
-        props: todos
-      应用: App
-        state: todos, inputTodo
-     */
-    /*
     问题: 完善功能
       1). 如果没有输入或输入的只是空格, 不添加到列表
       2). 如果输入的文本两边有空格, 去掉空格后添加
     */
+    /*
+      1. 拆分组件
+        App 应用主组件
+        AddTodo 添加todo组件
+        TodoList 显示todo组件
+      2. 分析数据存放的位置
+        App
+     */
+    //定义App组件
+    class App extends React.Component {
+      constructor (props) {
+        super(props);
+        //定义初始化数据
+        this.state = {
+          todoList: ['吃饭', '睡觉', '打豆豆']
+        }
+        //修正this指向
+        this.add = this.add.bind(this);
+      }
 
+      add (todo) {
+        //方法用来往todoList中添加数据的
+        //获取原来的值
+        let {todoList} = this.state;
+        //插入数据
+        todoList.unshift(todo);
+        //更新状态
+        this.setState({todoList});
+      }
 
+      render () {
+        const {todoList} = this.state;
+        return (
+          <div>
+            <h2>Simple TODO List</h2>
+            <AddTodo add={this.add} length={todoList.length}/>
+            <TodoList todoList={todoList}/>
+          </div>
+        )
+      }
+    }
+    //定义AddTodo组件
+    class AddTodo extends React.Component {
+      constructor (props) {
+        super(props);
+        //修正this指向
+        this.addTodo = this.addTodo.bind(this);
+      }
+
+      addTodo () {
+        //获取输入框的值
+        const value = this.refs.todo.value.trim();
+        //判断是否为空
+        if (value) {
+          //将要添加的数据塞到App的todoList数据中
+          this.props.add(value);
+          //清空输入框的数据
+          this.refs.todo.value = '';
+        }
+      }
+
+      render () {
+        const {length} = this.props;
+        return (
+          <div>
+            <input type="text" ref="todo"/>
+            <button onClick={this.addTodo}>Add #{length}</button>
+          </div>
+        )
+      }
+    }
+    //定义TodoList组件
+    class TodoList extends React.Component {
+      render () {
+        //获取props传递进来的数据
+        const {todoList} = this.props;
+        return (
+          <ul>
+            {todoList.map((item, index) => <li key={index}>{item}</li>)}
+          </ul>
+        )
+      }
+    }
+    //渲染组件
+    ReactDOM.render(<App />, document.getElementById('test'));
 
   </script>
 </body>
