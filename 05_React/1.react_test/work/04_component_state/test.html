@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>07_component_state</title>
+</head>
+<body>
+
+<div id="test"></div>
+
+<script src="../js/react.development.js"></script>
+<script src="../js/react-dom.development.js"></script>
+<script src="../js/babel.min.js"></script>
+<script type="text/babel">
+  /*
+  组件3大属性之: state属性
+    1). 组件被称为"状态机", 通过更新组件的状态值来更新对应的页面显示(重新渲染)
+    2). 初始化状态:
+      constructor (props) {
+        super(props);
+        this.state = {
+          stateProp1 : value1,
+          stateProp2 : value2
+        };
+      }
+    3). 读取某个状态值
+      this.state.statePropertyName
+    4). 更新状态---->组件界面更新
+      this.setState({
+        stateProp1 : value1,
+        stateProp2 : value2
+      })
+    5). 问题: 请区别一下组件的props和state属性?
+
+      - state是定义在组件内部的私有数据
+      - props是定义在组件外部的公有数据
+      - 提前就能定义好的数据通常用state
+      - 如果需要发送请求或者传递数据，就是用props
+  */
+
+  /*
+  需求: 自定义组件, 功能说明如下
+    1. 显示h2标题, 初始文本为: 你喜欢我
+    2. 点击标题更新为: 我喜欢你
+  */
+  //定义组件
+  class Like extends React.Component {
+    constructor (props) {
+      super(props);
+      //初始化组件状态
+      this.state = {
+        isLike: true
+      }
+      //强制改变函数的this指向, 将函数的this指向为实例对象
+      this.handleIsLike = this.handleIsLike.bind(this);
+    }
+    handleIsLike () {
+      console.log(this); //undefined
+      //获取当前的状态，取反
+      let isLike = !this.state.isLike;
+      //更新/设置状态
+      this.setState({isLike});
+    }
+    render () {
+      //获取组件的状态
+      let {isLike} = this.state;
+      return <h1 onClick={this.handleIsLike}>{isLike ? '我喜欢冰冰' : '冰冰喜欢我'}</h1>;
+    }
+  }
+
+  //渲染组件
+  ReactDOM.render(<Like />, document.getElementById('test'));
+
+
+</script>
+</body>
+</html>
+
