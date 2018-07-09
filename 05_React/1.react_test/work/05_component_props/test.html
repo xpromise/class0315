@@ -56,6 +56,10 @@
 
   //定义组件
   class Person extends React.Component {
+    constructor (props) {
+      super(props); //声明使用props就是让constructor方法中能够使用props属性
+      console.log(this.props);
+    }
     render () {
       //获取传入属性
       const {name, age, sex} = this.props;
@@ -83,6 +87,13 @@
   let person = {name: '周永益', age: 20, sex: '女'};
   //渲染组件
   ReactDOM.render(<Person {...person} />, document.getElementById('test1'));
+  // ReactDOM.render(<Person name={person.name} />, document.getElementById('test1'));
+  /*
+    1. 通过什么方式传递属性？
+      标签属性
+    2. 内部怎么获取属性？
+      this.props.xxx
+   */
 
 </script>
 </body>

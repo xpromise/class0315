@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>05_components_composing</title>
+</head>
+<body>
+<div>
+  <h1>Hello React</h1>
+  <ul>
+    <li>Welcome A!</li>
+    <li>Welcome B!</li>
+    <li>Welcome C!</li>
+  </ul>
+</div>
+<hr>
+
+<div id="test"></div>
+
+<script src="../js/react.development.js"></script>
+<script src="../js/react-dom.development.js"></script>
+<script src="../js/babel.min.js"></script>
+
+<script type="text/babel">
+  /*
+    1. 首先先去拆分组件
+      App
+      List
+   */
+  //定义应用主组件
+  class App extends React.Component {
+    render () {
+      //接受组件外传递的数据
+      const {data} = this.props;
+      return (
+        <div>
+          <h1>hello react</h1>
+          <ul>
+            <List data={data} />
+          </ul>
+        </div>
+      )
+    }
+  }
+  //定义List组件
+  class List extends React.Component {
+    render () {
+      //接受组件外传递的数据
+      const {data} = this.props;
+      return (
+        <div>
+          {
+            data.map((item, index) => <li key={index}>{item}</li>)
+          }
+        </div>
+      )
+    }
+  }
+  //数据
+  const data = ['jQuery', 'vue', 'express'];
+  //渲染组件
+  ReactDOM.render(<App data={data}/>, document.getElementById('test'));
+
+</script>
+</body>
+</html>
