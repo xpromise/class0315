@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>09_form</title>
+</head>
+<body>
+
+<input type="text" value="atguigu">
+<p>atguigu</p>
+
+<hr>
+
+<div id="test"></div>
+
+<script src="../js/react.development.js"></script>
+<script src="../js/react-dom.development.js"></script>
+<script src="../js/babel.min.js"></script>
+<script type="text/babel">
+  /*
+  受控组件
+  1. React是一个单向数据流
+  2. 但可以自定义双向数据流组件(受控组件)
+  */
+  /*
+  功能: 自定义组件, 功能如下
+    1. 界面如页面所示
+    2. 初始数据显示为atguigu
+    3. 输入数据时, 下面的数据同步变化
+  */
+  //定义组件
+  class Controller extends React.Component {
+    constructor (props) {
+      super(props);
+      //初始化状态
+      this.state = {
+        value: 'atguigu'
+      }
+      //修正this的指向
+      this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange (event) {
+      //获取输入框的值
+      const {value} = event.target;
+      //更this新状态
+      this.setState({value});
+    }
+
+    render () {
+      const {value} = this.state;
+      return (
+        <div>
+          <input type="text" value={value} onChange={this.handleChange}/>
+          <p>{value}</p>
+        </div>
+      )
+    }
+  }
+
+  //渲染组件
+  ReactDOM.render(<Controller />, document.getElementById('test'));
+
+
+</script>
+</body>
+</html>
