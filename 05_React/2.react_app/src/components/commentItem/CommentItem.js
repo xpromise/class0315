@@ -24,7 +24,7 @@ class CommentItem extends Component {
     return (
       <li className="list-group-item">
         <div className="handle">
-          <a href="javascript:;" onClick={this.delComment}>删除</a>
+          <a onClick={this.delComment}>删除</a>
         </div>
         <p className="user"><span >{item.name}</span><span>说:</span></p>
         <p className="centence">{item.comment}</p>
