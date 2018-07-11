@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 
+import PubSub from 'pubsub-js';
+
 class CommentItem extends Component {
   constructor (props) {
     super(props);
@@ -12,9 +14,8 @@ class CommentItem extends Component {
     // console.log(event.target.dataset.index);
     const {item, index} = this.props;
     if (window.confirm(`您确认删除${item.name}的评论吗？`)) {
-      //删除指定评论内容
-      const {del} = this.props;
-      del(index);
+      //发布消息
+      PubSub.publish('INDEX', index);
     }
   }
   

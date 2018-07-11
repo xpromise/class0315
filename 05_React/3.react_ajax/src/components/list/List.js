@@ -60,7 +60,6 @@ class List extends Component {
               )
             })
           }
-          
         </div>
       )
     } else {

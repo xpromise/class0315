@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import AddComment from '../addComment/AddComment';
 import CommentsList from '../commentsList/CommentsList';
 
+import PubSub from 'pubsub-js';
+
 //定义组件
 class App extends Component {
   constructor (props) {
@@ -15,23 +17,27 @@ class App extends Component {
     }
     //修正this指向
     this.add = this.add.bind(this);
-    this.del = this.del.bind(this);
   }
+  
+  componentWillMount () {
+    //订阅消息
+    PubSub.subscribe('INDEX', (msg, data) => {
+      console.log(msg, data);
+      //获取当前的状态
+      const {commentsList} = this.state;
+      //删除指定下标的评论
+      commentsList.splice(data, 1);
+      //更新状态
+      this.setState({commentsList});
+    })
+  }
+  
   //添加评论的方法
   add (comment) {
     //获取当前的状态
     const {commentsList} = this.state;
     //将要添加的数据添加进去
     commentsList.unshift(comment);
-    //更新状态
-    this.setState({commentsList});
-  }
-  //删除评论的方法
-  del (index) {
-    //获取当前的状态
-    const {commentsList} = this.state;
-    //删除指定下标的评论
-    commentsList.splice(index, 1);
     //更新状态
     this.setState({commentsList});
   }
@@ -51,7 +57,7 @@ class App extends Component {
         </header>
         <div className="container">
           <AddComment add={this.add}/>
-          <CommentsList commentsList={commentsList} del={this.del}/>
+          <CommentsList commentsList={commentsList}/>
         </div>
       </div>
     )

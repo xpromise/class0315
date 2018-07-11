@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>history</title>
+</head>
+<body>
+  <a href="/test1" onclick="return push('/test1')">test1</a> <br><br>
+  <button onclick="push('/test2')">push test2</button><br><br>
+  <button onclick="back()">back</button><br><br>
+  <button onclick="forward()">forward</button><br><br>
+  <button onclick="replace('/test3')">replace test3</button><br><br>
+
+  <script src="https://cdn.bootcss.com/history/4.7.2/history.min.js"></script>
+  <script type="text/javascript">
+    let history = History.createBrowserHistory();
+    // history = History.createHashHistory();
+    console.log(history);
+
+    function push(path) {
+      history.push(path);
+      return false
+    }
+    
+    function back() {
+      history.goBack();
+    }
+
+    function forward() {
+      history.goForward();
+    }
+    
+    function replace(path) {
+      history.replace(path);
+    }
+
+    history.listen(function (location) {
+      console.log('请求的路由路径发生了变化:' + location.pathname);
+    })
+
+  </script>
+</body>
+
+</html>
