@@ -15,10 +15,11 @@ class App extends Component {
   }
   
   render () {
+    const {searchName} = this.state;
     return (
       <div className="container">
         <Search search={this.search}/>
-        <List />
+        <List searchName={searchName}/>
       </div>
     )
   }
