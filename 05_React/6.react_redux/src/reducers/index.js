@@ -15,20 +15,16 @@ function reducer(preState=0, action) {
         data: 更新的数据
       }
    */
-  let newState = 0;
   
   switch (action.type) {
     case INCREMENT :
-      newState = preState + action.data;
-      break;
+      return preState + action.data;
     case DECREMENT :
-      newState = preState - action.data;
-      break;
+      return preState - action.data;
     default :
-      newState = preState;
+      return preState;
   }
   
-  return newState;
 }
 
 //暴露出去
