@@ -2,6 +2,9 @@
   renducer函数：
     状态机
  */
+
+import {INCREMENT, DECREMENT} from '../config';
+
 function reducer(preState=0, action) {
   console.log('preState:' + preState , action );
   /*
@@ -15,10 +18,10 @@ function reducer(preState=0, action) {
   let newState = 0;
   
   switch (action.type) {
-    case 'INCREMENT' :
+    case INCREMENT :
       newState = preState + action.data;
       break;
-    case 'DECREMENT' :
+    case DECREMENT :
       newState = preState - action.data;
       break;
     default :

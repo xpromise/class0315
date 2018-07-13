@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 
+import {increment, decrement} from '../../actions';
+
 class App extends Component {
   
   increment = () => {
@@ -12,7 +14,7 @@ class App extends Component {
       value: value + number
     })*/
     //触发更新状态
-    this.props.store.dispatch({type: 'INCREMENT', data})
+    this.props.store.dispatch(increment(data))
   }
   
   decrement = () => {
@@ -24,7 +26,7 @@ class App extends Component {
     /*this.setState({
       value: value - number
     })*/
-    this.props.store.dispatch({type: 'DECREMENT', data})
+    this.props.store.dispatch(decrement(data))
   }
   
   incrementIfOdd = () => {
@@ -38,7 +40,7 @@ class App extends Component {
       /*this.setState({
         value: value + number
       })*/
-      this.props.store.dispatch({type: 'INCREMENT', data})
+      this.props.store.dispatch(increment(data))
     }
   }
   
@@ -52,7 +54,7 @@ class App extends Component {
       /*this.setState({
         value: value + number
       })*/
-      this.props.store.dispatch({type: 'INCREMENT', data})
+      this.props.store.dispatch(increment(data))
     }, 1000)
   }
   
