@@ -1,12 +1,8 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+
+import {increment, decrement} from '../../actions';
 
 class App extends Component {
-  static propTypes = {
-    value: PropTypes.number.isRequired,
-    increment: PropTypes.func.isRequired,
-    decrement: PropTypes.func.isRequired
-  }
   
   increment = () => {
     //获取当前状态
@@ -18,7 +14,7 @@ class App extends Component {
       value: value + number
     })*/
     //触发更新状态
-    this.props.increment(data);
+    this.props.store.dispatch(increment(data))
   }
   
   decrement = () => {
@@ -30,12 +26,12 @@ class App extends Component {
     /*this.setState({
       value: value - number
     })*/
-    this.props.decrement(data);
+    this.props.store.dispatch(decrement(data))
   }
   
   incrementIfOdd = () => {
     //获取当前状态
-    const value = this.props.value;
+    const value = this.props.store.getState();
     //判断状态是否是奇数
     if (value % 2 === 1) {
       //获取下拉列表的值
@@ -44,7 +40,7 @@ class App extends Component {
       /*this.setState({
         value: value + number
       })*/
-      this.props.increment(data);
+      this.props.store.dispatch(increment(data))
     }
   }
   
@@ -58,13 +54,13 @@ class App extends Component {
       /*this.setState({
         value: value + number
       })*/
-      this.props.increment(data);
+      this.props.store.dispatch(increment(data))
     }, 1000)
   }
   
   render () {
     //获取当前的状态
-    const value = this.props.value;
+    const value = this.props.store.getState();
     return (
       <div>
         <h2>click {value} times</h2>
