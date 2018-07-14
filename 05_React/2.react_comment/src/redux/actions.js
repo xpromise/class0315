@@ -4,7 +4,7 @@ export const add = data => ({type: ADD_COMMENT, data});
 
 export const del = data => ({type: DEL_COMMENT, data});
 
-export const get = data => ({type: GET_COMMNETS, data})
+export const get = data => ({type: GET_COMMNETS, data});
 
 export const update = () => {
   return dispatch => {
