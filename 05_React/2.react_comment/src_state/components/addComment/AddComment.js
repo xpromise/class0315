@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 
 class AddComment extends Component {
-  static propTypes = {
-    add: PropTypes.func.isRequired
+  constructor (props) {
+    super(props);
+    //修正this指向
+    this.addComment = this.addComment.bind(this);
   }
   //添加评论的方法
-  addComment = () => {
+  addComment () {
     //获取用户填写的数据
     const name = this.refs.name.value.trim();
     const comment = this.refs.comment.value.trim();
@@ -16,7 +17,8 @@ class AddComment extends Component {
       return
     }
     //将数据添加到App组件中
-    this.props.add({name, comment});
+    const {add} = this.props;
+    add({name, comment});
     //清空输入框数据
     this.refs.name.value = '';
     this.refs.comment.value = '';

@@ -1,49 +1,23 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+
 import AddComment from '../addComment/AddComment';
 import CommentsList from '../commentsList/CommentsList';
 
-import PubSub from 'pubsub-js';
-
 //定义组件
 class App extends Component {
-  constructor (props) {
-    super(props);
-    //初始化数据
-    this.state = {
-      commentsList: [
-        {name: '黄诗云', comment: '今天天气真晴朗'},
-        {name: '刘上洪', comment: '楼上好多人'}
-      ]
-    }
-    //修正this指向
-    this.add = this.add.bind(this);
+  static propTypes = {
+    commentsList: PropTypes.array.isRequired,
+    add: PropTypes.func.isRequired,
+    del: PropTypes.func.isRequired
   }
   
-  componentWillMount () {
-    //订阅消息
-    PubSub.subscribe('INDEX', (msg, data) => {
-      console.log(msg, data);
-      //获取当前的状态
-      const {commentsList} = this.state;
-      //删除指定下标的评论
-      commentsList.splice(data, 1);
-      //更新状态
-      this.setState({commentsList});
-    })
-  }
-  
-  //添加评论的方法
-  add (comment) {
-    //获取当前的状态
-    const {commentsList} = this.state;
-    //将要添加的数据添加进去
-    commentsList.unshift(comment);
-    //更新状态
-    this.setState({commentsList});
+  componentDidMount () {
+    this.props.update();
   }
   
   render () {
-    const {commentsList} = this.state;
+    const {commentsList, add, del} = this.props;
     return (
       <div>
         <header className="site-header jumbotron">
@@ -56,8 +30,8 @@ class App extends Component {
           </div>
         </header>
         <div className="container">
-          <AddComment add={this.add}/>
-          <CommentsList commentsList={commentsList}/>
+          <AddComment add={add}/>
+          <CommentsList commentsList={commentsList} del={del}/>
         </div>
       </div>
     )

@@ -1,8 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Provider} from 'react-redux';
 
-import App from './components/app/App';
+import Container from './containers';
+import store from './redux/store';
 
 //渲染组件
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(
+  <Provider store={store}>
+    <Container />
+  </Provider>
+  , document.getElementById('app'));
 

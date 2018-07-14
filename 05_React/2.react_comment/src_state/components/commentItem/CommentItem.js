@@ -1,22 +1,21 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 
+import PubSub from 'pubsub-js';
 
 class CommentItem extends Component {
-  static propTypes = {
-    index: PropTypes.number.isRequired,
-    item: PropTypes.object.isRequired,
-    del: PropTypes.func.isRequired
+  constructor (props) {
+    super(props);
+    //修正this指向
+    this.delComment = this.delComment.bind(this);
   }
-  
   //删除评论的方法
-  delComment = () => {
+  delComment (event) {
     //获取要删除元素的下标
     // console.log(event.target.dataset.index);
-    const {item, index, del} = this.props;
+    const {item, index} = this.props;
     if (window.confirm(`您确认删除${item.name}的评论吗？`)) {
-      //删除数据
-      del(index);
+      //发布消息
+      PubSub.publish('INDEX', index);
     }
   }
   

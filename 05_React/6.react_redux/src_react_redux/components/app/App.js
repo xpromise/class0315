@@ -49,10 +49,17 @@ class App extends Component {
   }
   
   incrementAsync = () => {
-    //获取下拉列表的值
-    const data = +this.refs.select.value;
-    
-    this.props.incrementAsync(data);
+    setTimeout(() => {
+      //获取当前状态
+      // const {value} = this.state;
+      //获取下拉列表的值
+      const data = +this.refs.select.value;
+      //更新状态
+      /*this.setState({
+        value: value + number
+      })*/
+      this.props.increment(data);
+    }, 1000)
   }
   
   render () {
